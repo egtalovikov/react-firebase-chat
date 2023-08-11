@@ -3,11 +3,24 @@ import {Context} from "../index";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {Button, Container, Grid} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
+import {useCollectionData} from "react-firebase-hooks/firestore";
+import Loader from "./Loader";
 
 const Chat = () => {
     const {auth, firestore} = useContext(Context)
     const [user] = useAuthState(auth)
     const [value, setValue] = useState('')
+    const [messages, loading] = useCollectionData(
+        firestore.collection('messages').orderBy('createdAt')
+    )
+
+    const sendMessage = async () => {
+        console.log(value)
+    }
+
+    if (loading) {
+        return <Loader/>
+    }
 
     return (
         <Container>
@@ -29,7 +42,7 @@ const Chat = () => {
                         value={value}
                         onChange={e => setValue(e.target.value)}
                     />
-                    <Button variant={"outlined"}>Отправить</Button>
+                    <Button onClick={sendMessage} variant={"outlined"}>Отправить</Button>
                 </Grid>
             </Grid>
         </Container>
