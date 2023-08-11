@@ -5,6 +5,7 @@ import {Button, Container, Grid} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import Loader from "./Loader";
+import firebase from "firebase";
 
 const Chat = () => {
     const {auth, firestore} = useContext(Context)
@@ -15,7 +16,14 @@ const Chat = () => {
     )
 
     const sendMessage = async () => {
-        console.log(value)
+        firestore.collection('messages').add({
+            uid: user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            text: value,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        setValue('')
     }
 
     if (loading) {
