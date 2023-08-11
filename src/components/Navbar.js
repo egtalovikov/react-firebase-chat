@@ -7,11 +7,11 @@ import { LOGIN_ROUTE } from '../utils/consts';
 
 
 const Navbar = () => {
-    const user = true
+    const user = false
 
     return (
         <AppBar color={"secondary"} position="static">
-            <Toolbar>
+            <Toolbar variant={"dense"}>
                 <Grid container justifyContent={"flex-end"}>
                     {user ?
                         <Button variant={"outlined"}>Выйти</Button>
